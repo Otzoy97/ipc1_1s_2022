@@ -4,7 +4,8 @@ import java.util.Scanner;
  * 
  */
 public class Ejemplo4 {
-
+    /// Estas son variables globales
+    /// El alcance de estas variables es la clase entera
     static int[][] primera_matriz;
     static int[][] segunda_matriz;
 
@@ -70,24 +71,24 @@ public class Ejemplo4 {
                     }
                     for (int i = 0; i < primera_matriz.length; i++) {
                         for (int j = 0; j < segunda_matriz[0].length; j++) {
-                            System.out.print(primera_matriz[i][j] * segunda_matriz[j][i] + " ");   
+                            System.out.print(primera_matriz[i][j] * segunda_matriz[j][i] + " ");
                         }
                         System.out.println("");
                     }
                     /*
-                    for (int i = 0; i < fila; i++) {
-            for (int j = 0; j < columnas; j++) {
-                
-                for (int k = 0; k < fila; k++) {
-                    
-                    matrizR[i][j] += cuadrada[i][k] * matrizPrincipal[k][j];
-                    
-                }
-                System.out.print("|" + matrizR[i][j] + "|");
-            }
-            System.out.print("");
-        }
-                    */
+                     * for (int i = 0; i < fila; i++) {
+                     * for (int j = 0; j < columnas; j++) {
+                     * 
+                     * for (int k = 0; k < fila; k++) {
+                     * 
+                     * matrizR[i][j] += cuadrada[i][k] * matrizPrincipal[k][j];
+                     * 
+                     * }
+                     * System.out.print("|" + matrizR[i][j] + "|");
+                     * }
+                     * System.out.print("");
+                     * }
+                     */
                 }
                     break;
                 case "6":
@@ -105,23 +106,39 @@ public class Ejemplo4 {
      * Si no tiene la mismma cantidad de columnas se indicará al usuario
      * Y no se guardará la matriz en memoria
      * 
-     * @param no_matriz
-     * @param cadena_matriz
+     * @param no_matriz Indica el numero de la matriz que se asignará
+     * @param cadena_matriz Cadena que contiene la entrada del usuario
+     * @return Un valor booleano que indica si la matriz está bien formada.
      */
     public static boolean convertirMatriz(int no_matriz, String cadena_matriz) {
         String[] filas = cadena_matriz.split(";");
         String[] celda_temporal;
+        // Se toma como referncia la primera fila
+        // para determinar la cantidad de columnas o celdas
+        // que tendrá la matriz completa
+        int celdas_por_fila = filas[0].split(",").length;
         // Se asignará a la matriz uno
         if (no_matriz == 1) {
-            primera_matriz = new int[filas.length][filas[0].split(",").length];
+            primera_matriz = new int[filas.length][celdas_por_fila];
             for (int i = 0; i <= filas.length - 1; i++) {
                 // 0,1,2,3,4,5,6
                 celda_temporal = filas[i].split(",");
+                // Determina si una fila no tiene la misma cantidad
+                // de celdas o columnas que la fila de referencia (es decir, la primera columna)
+                if (celda_temporal.length != celdas_por_fila) {
+                    // Si entra en este if, quiere decir que 
+                    // la matriz está mal formada
+                    // Se detiene la ejecución de la función
+                    // y se devuelve un "false"
+                    return false;
+                }
                 for (int j = 0; j < celda_temporal.length; j++) {
+                    // Asigna cada celda o espacio de la matriz
                     primera_matriz[i][j] = Integer.parseInt(celda_temporal[j]);
                 }
             }
         } else {
+            // Realiza las mismas acciones que la sección del if que sí es verdadera
             segunda_matriz = new int[filas.length][filas[0].split(",").length];
             // Se asignará a la matriz dos
             for (int i = 0; i <= filas.length - 1; i++) {

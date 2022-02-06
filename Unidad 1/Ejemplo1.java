@@ -1,5 +1,5 @@
 /**
- * Programa que encuentra hasta 10 numero
+ * Programa que encuentra hasta 10 numeros
  * que son divisibles entre 18
  */
 public class Ejemplo1 {
@@ -15,6 +15,11 @@ public class Ejemplo1 {
             y = y + 1; // aumentar en una unidad el valor de y
         }
     }
+    
+    /// Estas tres funciones no cumplen ningun
+    /// rol importante en este programa
+    /// únicamente funcionan para ejemplificar
+    /// la forma de definir funciones
     
     public static int moduloDe(int val0, int val1) {
         return val0 % val1;
