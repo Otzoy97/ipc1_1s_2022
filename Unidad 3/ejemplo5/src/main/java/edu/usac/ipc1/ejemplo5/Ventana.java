@@ -16,9 +16,19 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-public class Ventana extends JFrame {
-    public Ventana() {
+import edu.usac.ipc1.ejemplo5.Curso.Curso;
+import edu.usac.ipc1.ejemplo5.Curso.Nota;
+import edu.usac.ipc1.ejemplo5.Estudiante.Crear;
+import edu.usac.ipc1.ejemplo5.Estudiante.Estudiante;
 
+public class Ventana extends JFrame {
+
+    public Estudiante[] estudiante;
+    public Curso[] cursos;
+
+    public Ventana() {
+        estudiante = new Estudiante[10];
+        cursos = new Curso[10];
         this.init();
     }
 
@@ -33,7 +43,7 @@ public class Ventana extends JFrame {
         // Configura el panel de escritorio
         this.desktopPane = new JDesktopPane();
         this.desktopPane.setBackground(new Color(155, 155, 155));
-        this.desktopPane.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+        this.desktopPane.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
         // Barra de menú
         JMenuBar menuBar = new JMenuBar();
         // Item de barra de menú
@@ -44,29 +54,36 @@ public class Ventana extends JFrame {
         crearEstudiante.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
-                Crear crear = new Crear();
-                desktopPane.add(crear);
-                crear.toFront();
-                crear.setVisible(true);
-                try {
-                    crear.setSelected(true);
-                } catch (Exception ex) {
-                    System.out.println(ex);
-                }
+                agregarInternalFrame(1);
             }
         });
         JMenuItem mostrarEstudiantes = new JMenuItem("Listar");
+        mostrarEstudiantes.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                listarEstudiante();
+            }
+        });
         JMenuItem consultarEstudiante = new JMenuItem("Ver notas...");
         // Submenús para cursos
-        JMenuItem crearCurso = new JMenuItem("Nuevo...");
-        JMenuItem mostrarCursos = new JMenuItem("Ver cursos...");
+        JMenuItem crearCurso = new JMenuItem("Asignar...");
+        crearCurso.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                agregarInternalFrame(2);
+            }
+        });
+        JMenuItem colocarNota = new JMenuItem("Colocar nota...");
+        colocarNota.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                agregarInternalFrame(3);
+            }
+        });
         // Agrega submenus a menu estudiante
         estudiante.add(crearEstudiante);
         estudiante.add(mostrarEstudiantes);
         estudiante.add(consultarEstudiante);
         // Agrega submenus a menu cursos
         cursos.add(crearCurso);
-        cursos.add(mostrarCursos);
+        cursos.add(colocarNota);
         // Agrega menus a barra de menú
         menuBar.add(estudiante);
         menuBar.add(cursos);
@@ -88,6 +105,46 @@ public class Ventana extends JFrame {
         gridBagConstraints.weightx = 1;
         gridBagConstraints.weighty = 1;
         this.add(this.desktopPane, gridBagConstraints);
+        pack();
+    }
+
+    private void agregarInternalFrame(int option) {
+        switch (option) {
+            case 1:
+                Crear crear = new Crear(this.estudiante);
+                desktopPane.add(crear);
+                crear.toFront();
+                crear.setVisible(true);
+                try {
+                    crear.setSelected(true);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+                break;
+            case 2:
+                edu.usac.ipc1.ejemplo5.Curso.Asignar cursoCrear = new edu.usac.ipc1.ejemplo5.Curso.Asignar(
+                        this.estudiante);
+                desktopPane.add(cursoCrear);
+                cursoCrear.toFront();
+                cursoCrear.setVisible(true);
+                try {
+                    cursoCrear.setSelected(true);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+                break;
+            case 3:
+                Nota nota = new Nota(this.estudiante);
+                desktopPane.add(nota);
+                nota.toFront();
+                nota.setVisible(true);
+                try {
+                    nota.setSelected(true);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+                break;
+        }
     }
 
     private void formWindowClosing(WindowEvent evt) {
@@ -95,6 +152,14 @@ public class Ventana extends JFrame {
                 JOptionPane.YES_NO_CANCEL_OPTION);
         if (res == JOptionPane.YES_OPTION) {
             this.dispose();
+        }
+    }
+
+    private void listarEstudiante() {
+        for (int i = 0; i < estudiante.length; i++) {
+            if (estudiante[i] != null) {
+                estudiante[i].obtenerDatos();
+            }
         }
     }
 
