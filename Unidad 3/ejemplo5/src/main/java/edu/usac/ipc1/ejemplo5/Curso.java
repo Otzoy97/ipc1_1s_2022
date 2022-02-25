@@ -17,10 +17,18 @@ public class Curso {
         this.nota = 0f;
     }
     
+    /**
+     * Setter
+     * @param nota 
+     */
     public void colocarNota(float nota) {
         this.nota = nota;
     }
     
+    /**
+     * Getter
+     * @return 
+     */
     public float obtenerNota() {
         return nota;
     }

@@ -92,7 +92,7 @@ public class Ventana extends JFrame {
 
     private void formWindowClosing(WindowEvent evt) {
         int res = JOptionPane.showConfirmDialog(this, "¿Desea salir de la aplicación?", "Asignación",
-                JOptionPane.YES_NO_OPTION);
+                JOptionPane.YES_NO_CANCEL_OPTION);
         if (res == JOptionPane.YES_OPTION) {
             this.dispose();
         }
