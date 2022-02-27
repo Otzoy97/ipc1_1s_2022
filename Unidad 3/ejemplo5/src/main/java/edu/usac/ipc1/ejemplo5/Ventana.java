@@ -20,6 +20,7 @@ import edu.usac.ipc1.ejemplo5.Curso.Curso;
 import edu.usac.ipc1.ejemplo5.Curso.Nota;
 import edu.usac.ipc1.ejemplo5.Estudiante.Crear;
 import edu.usac.ipc1.ejemplo5.Estudiante.Estudiante;
+import edu.usac.ipc1.ejemplo5.Estudiante.VerNota;
 
 public class Ventana extends JFrame {
 
@@ -61,6 +62,7 @@ public class Ventana extends JFrame {
         mostrarEstudiantes.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 listarEstudiante();
+                agregarInternalFrame(4);
             }
         });
         JMenuItem consultarEstudiante = new JMenuItem("Ver notas...");
@@ -140,6 +142,17 @@ public class Ventana extends JFrame {
                 nota.setVisible(true);
                 try {
                     nota.setSelected(true);
+                } catch (Exception ex) {
+                    System.out.println(ex);
+                }
+                break;
+            case 4:
+                VerNota verNota = new VerNota(this.estudiante);
+                desktopPane.add(verNota);
+                verNota.toFront();
+                verNota.setVisible(true);
+                try {
+                    verNota.setSelected(true);
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
