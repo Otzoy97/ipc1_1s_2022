@@ -1,4 +1,4 @@
-package edu.usac.ipc1.ejemplo5.Curso;
+package edu.usac.ipc1.ejemplo5.curso;
 
 /**
  *

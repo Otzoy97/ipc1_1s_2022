@@ -1,4 +1,4 @@
-package edu.usac.ipc1.ejemplo5.Estudiante;
+package edu.usac.ipc1.ejemplo5.estudiante;
 
 import javax.swing.table.AbstractTableModel;
 

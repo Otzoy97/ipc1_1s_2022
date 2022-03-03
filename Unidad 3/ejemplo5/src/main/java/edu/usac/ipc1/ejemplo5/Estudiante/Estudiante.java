@@ -1,6 +1,6 @@
-package edu.usac.ipc1.ejemplo5.Estudiante;
+package edu.usac.ipc1.ejemplo5.estudiante;
 
-import edu.usac.ipc1.ejemplo5.Curso.Curso;
+import edu.usac.ipc1.ejemplo5.curso.Curso;
 
 /**
  *

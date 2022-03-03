@@ -16,11 +16,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
-import edu.usac.ipc1.ejemplo5.Curso.Curso;
-import edu.usac.ipc1.ejemplo5.Curso.Nota;
-import edu.usac.ipc1.ejemplo5.Estudiante.Crear;
-import edu.usac.ipc1.ejemplo5.Estudiante.Estudiante;
-import edu.usac.ipc1.ejemplo5.Estudiante.VerNota;
+import edu.usac.ipc1.ejemplo5.curso.Curso;
+import edu.usac.ipc1.ejemplo5.curso.Nota;
+import edu.usac.ipc1.ejemplo5.estudiante.Crear;
+import edu.usac.ipc1.ejemplo5.estudiante.Estudiante;
+import edu.usac.ipc1.ejemplo5.estudiante.VerNota;
 
 public class Ventana extends JFrame {
 
@@ -124,7 +124,7 @@ public class Ventana extends JFrame {
                 }
                 break;
             case 2:
-                edu.usac.ipc1.ejemplo5.Curso.Asignar cursoCrear = new edu.usac.ipc1.ejemplo5.Curso.Asignar(
+                edu.usac.ipc1.ejemplo5.curso.Asignar cursoCrear = new edu.usac.ipc1.ejemplo5.curso.Asignar(
                         this.estudiante);
                 desktopPane.add(cursoCrear);
                 cursoCrear.toFront();

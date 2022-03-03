@@ -1,4 +1,4 @@
-package edu.usac.ipc1.ejemplo5.Curso;
+package edu.usac.ipc1.ejemplo5.curso;
 
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import edu.usac.ipc1.ejemplo5.Estudiante.Estudiante;
+import edu.usac.ipc1.ejemplo5.estudiante.Estudiante;
 
 public class Nota extends JInternalFrame {
 
