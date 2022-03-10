@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>edu.usac.ipc1</groupId>
-    <artifactId>ejemplo6</artifactId>
+    <artifactId>ejemplo7</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
@@ -20,11 +20,11 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>edu.usac.ipc1.ejemplo6.Editor</mainClass>
+                            <mainClass>edu.usac.ipc1.ejemplo7.Ejemplo7</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
             </plugin>
         </plugins>
-    </build>   
+    </build> 
 </project>
