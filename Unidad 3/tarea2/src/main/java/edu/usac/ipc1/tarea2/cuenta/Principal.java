@@ -9,7 +9,6 @@ import javax.swing.JOptionPane;
 import edu.usac.ipc1.tarea2.cliente.Cliente;
 import edu.usac.ipc1.tarea2.cliente.ClienteDialog;
 import edu.usac.ipc1.tarea2.transferencia.Transferencia;
-import edu.usac.ipc1.tarea2.transferencia.TransferenciaTableModel;
 
 /**
  *
@@ -19,18 +18,17 @@ public class Principal extends javax.swing.JFrame {
 
     Cliente[] clientes = new Cliente[10];
     Transferencia[] transferencias = new Transferencia[100];
-    TransferenciaTableModel modelTable;
+    CuentaTableModel modelTable;
 
     /**
      * Creates new form Principal
      */
     public Principal() {
-        modelTable = new TransferenciaTableModel(transferencias);
+        modelTable = new CuentaTableModel(clientes);
         initComponents();
     }
 
-    // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -174,7 +172,10 @@ public class Principal extends javax.swing.JFrame {
 
         tableCuentas.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         tableCuentas.setModel(this.modelTable);
+        tableCuentas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tableCuentas.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tableCuentas);
+        tableCuentas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -184,15 +185,12 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         dialogCuentas.getContentPane().add(jScrollPane1, gridBagConstraints);
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Entidad bancaria");
         setMinimumSize(new java.awt.Dimension(400, 300));
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Crear cliente",
-                javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP,
-                new java.awt.Font("SansSerif", 0, 12))); // NOI18N
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Crear cliente", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("SansSerif", 0, 12))); // NOI18N
         jPanel1.setLayout(new java.awt.GridBagLayout());
 
         txtClienteApellido.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -270,10 +268,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         getContentPane().add(jPanel1, gridBagConstraints);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Crear cuenta",
-                javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP,
-                new java.awt.Font("SansSerif", 0, 12))); // NOI18N
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Crear cuenta", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("SansSerif", 0, 12))); // NOI18N
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -350,10 +345,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         getContentPane().add(jPanel2, gridBagConstraints);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(
-                javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Transferir",
-                javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP,
-                new java.awt.Font("SansSerif", 0, 12))); // NOI18N
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Transferir", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("SansSerif", 0, 12))); // NOI18N
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jLabel4.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
@@ -431,8 +423,7 @@ public class Principal extends javax.swing.JFrame {
 
         jMenu1.setText("Cuentas");
 
-        clientesMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A,
-                java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        clientesMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         clientesMenu.setText("Clientes...");
         clientesMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -441,9 +432,8 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu1.add(clientesMenu);
 
-        cuentaMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D,
-                java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        cuentaMenu.setText("Cuenta");
+        cuentaMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        cuentaMenu.setText("Cuentas...");
         cuentaMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cuentaMenuActionPerformed(evt);
@@ -458,7 +448,7 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnAgregarClienteActionPerformed
+    private void btnAgregarClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarClienteActionPerformed
         if (this.txtClienteCUI.getText().isBlank() || this.txtClienteNombre.getText().isBlank()
                 || this.txtClienteApellido.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "LLene todos los campos", "Entidad bancaria - crear cliente",
@@ -467,21 +457,22 @@ public class Principal extends javax.swing.JFrame {
         }
         for (int i = 0; i < this.clientes.length; i++) {
             if (this.clientes[i] == null) {
+                this.clientes[i] = new Cliente(this.txtClienteCUI.getText().trim(),
+                        this.txtClienteNombre.getText().trim(), this.txtClienteApellido.getText().trim());
+                break;
+            } else {
                 if (this.clientes[i].getCUI().equalsIgnoreCase(this.txtClienteCUI.getText().trim())) {
                     JOptionPane.showMessageDialog(this, "No se admiten CUI repetidos",
                             "Entidad bancaria - crear cliente", JOptionPane.WARNING_MESSAGE);
                     return;
                 }
-                this.clientes[i] = new Cliente(this.txtClienteCUI.getText().trim(),
-                        this.txtClienteNombre.getText().trim(), this.txtClienteApellido.getText().trim());
-                break;
             }
         }
         JOptionPane.showMessageDialog(this, "Cliente creado", "Entidad bancaria - crear cliente",
                 JOptionPane.INFORMATION_MESSAGE);
-    }// GEN-LAST:event_btnAgregarClienteActionPerformed
+    }//GEN-LAST:event_btnAgregarClienteActionPerformed
 
-    private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnCrearCuentaActionPerformed
+    private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         if (this.txtCuentCUI.getText().isBlank() || this.txtCuentaMonto.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "LLene todos los campos", "Entidad bancaria - crear cuenta",
                     JOptionPane.WARNING_MESSAGE);
@@ -497,6 +488,8 @@ public class Principal extends javax.swing.JFrame {
                         return;
                     }
                     this.clientes[i].addCuenta(new Cuenta(this.cmbCuentaTipo.getSelectedItem().toString(), monto));
+                    JOptionPane.showMessageDialog(this, "Cuenta creada", "Entidad bancaria - crear cuenta",
+                            JOptionPane.INFORMATION_MESSAGE);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(this, "El monto debe ser un número", "Crear cuenta",
                             JOptionPane.ERROR_MESSAGE);
@@ -505,11 +498,28 @@ public class Principal extends javax.swing.JFrame {
                 break;
             }
         }
-        JOptionPane.showMessageDialog(this, "Cliente creado", "Entidad bancaria - crear cuenta",
-                JOptionPane.INFORMATION_MESSAGE);
-    }// GEN-LAST:event_btnCrearCuentaActionPerformed
+    }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
-    private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnTransferirActionPerformed
+
+    private void cuentaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cuentaMenuActionPerformed
+        dialogCuentas.setVisible(true);
+    }//GEN-LAST:event_cuentaMenuActionPerformed
+
+    private void btnBuscarCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCuentaActionPerformed
+        for (int i = 0; i < clientes.length; i++) {
+            if (clientes[i] != null && clientes[i].getCUI().equals(this.txtCUIBuscarCuenta.getText().trim())) {
+                this.txtBuscarNombre.setText(clientes[i].getNombre());
+                this.txtBuscarApellido.setText(clientes[i].getApellido());
+                this.modelTable.updateCuentas(this.txtCUIBuscarCuenta.getText().trim());
+            }
+        }
+    }//GEN-LAST:event_btnBuscarCuentaActionPerformed
+
+    private void clientesMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientesMenuActionPerformed
+        new ClienteDialog(this, true, clientes).setVisible(true);
+    }//GEN-LAST:event_clientesMenuActionPerformed
+
+    private void btnTransferirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTransferirActionPerformed
         if (this.txtTransferenciaDestino.getText().isBlank() || this.txtTransferenciaMonto.getText().isBlank()
                 || this.txtTransferenciaOrigen.getText().isBlank()) {
             JOptionPane.showMessageDialog(this, "LLene todos los campos", "Entidad bancaria - transferir",
@@ -526,7 +536,7 @@ public class Principal extends javax.swing.JFrame {
         }
         if (monto == null || monto <= 0) {
             JOptionPane.showMessageDialog(this, "El campo de monto debe ser mayor a 1", "Entidad bancaria - transferir",
-            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
         Cuenta origen = null, destino = null;
@@ -548,53 +558,35 @@ public class Principal extends javax.swing.JFrame {
         }
         if (origen == null) {
             JOptionPane.showMessageDialog(this, "La cuenta de origen no existe", "Entidad bancaria - transferir",
-            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (destino == null) {
             JOptionPane.showMessageDialog(this, "La cuenta de destino no existe", "Entidad bancaria - transferir",
-            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
         if (origen.getFondos().compareTo(monto) < 0) {
             JOptionPane.showMessageDialog(this, "La cuenta de origen no tiene los fondos suficientes para completar la transferencia", "Entidad bancaria - transferir",
-            JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
         for (int i = 0; i < this.transferencias.length; i++) {
             if (this.transferencias[i] == null) {
                 this.transferencias[i] = new Transferencia(origen.getGuid(), destino.getGuid(), monto.doubleValue());
+                JOptionPane.showMessageDialog(this, "Transferencia exitosa", "Entidad bancaria - transferir",
+                        JOptionPane.INFORMATION_MESSAGE);
                 break;
             }
         }
-        JOptionPane.showMessageDialog(this, "Cliente creado", "Entidad bancaria - transferir",
-                JOptionPane.INFORMATION_MESSAGE);
-    }// GEN-LAST:event_btnTransferirActionPerformed
-
-    private void clientesMenuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_clientesMenuActionPerformed
-        new ClienteDialog(this, true, clientes).setVisible(true);
-    }// GEN-LAST:event_clientesMenuActionPerformed
-
-    private void cuentaMenuActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_cuentaMenuActionPerformed
-        dialogCuentas.setVisible(true);
-    }// GEN-LAST:event_cuentaMenuActionPerformed
-
-    private void btnBuscarCuentaActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_btnBuscarCuentaActionPerformed
-        for (int i = 0; i < clientes.length; i++) {
-            if (clientes[i] != null && clientes[i].getCUI().equals(this.txtCUIBuscarCuenta.getText().trim())) {
-                this.txtBuscarNombre.setText(clientes[i].getNombre());
-                this.txtBuscarApellido.setText(clientes[i].getApellido());
-            }
-        }
-    }// GEN-LAST:event_btnBuscarCuentaActionPerformed
+    }//GEN-LAST:event_btnTransferirActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-        // (optional) ">
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /*
          * If Nimbus (introduced in Java SE 6) is not available, stay with the default
          * look and feel.
@@ -611,7 +603,7 @@ public class Principal extends javax.swing.JFrame {
         } catch (Exception ex) {
             java.util.logging.Logger.getLogger(Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        // </editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

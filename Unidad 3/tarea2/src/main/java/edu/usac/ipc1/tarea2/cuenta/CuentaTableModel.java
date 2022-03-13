@@ -19,6 +19,7 @@ public class CuentaTableModel extends AbstractTableModel {
             for (int i = 0; i < refClientes.length ; i++) {
                 if (refClientes[i] != null && refClientes[i].getCUI().equals(CUI))  {
                     refCuentas = refClientes[i].getCuentas();
+                    fireTableDataChanged();
                 }
             }
         }

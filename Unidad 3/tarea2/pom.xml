@@ -20,7 +20,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>edu.usac.ipc1.tarea2.Principal</mainClass>
+                            <mainClass>edu.usac.ipc1.tarea2.cuenta.Principal</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
