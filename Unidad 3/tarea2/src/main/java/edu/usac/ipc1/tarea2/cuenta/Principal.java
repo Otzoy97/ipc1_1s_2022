@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import edu.usac.ipc1.tarea2.cliente.Cliente;
 import edu.usac.ipc1.tarea2.cliente.ClienteDialog;
 import edu.usac.ipc1.tarea2.transferencia.Transferencia;
+import edu.usac.ipc1.tarea2.transferencia.TransferenciaTableModel;
 
 /**
  *
@@ -18,13 +19,15 @@ public class Principal extends javax.swing.JFrame {
 
     Cliente[] clientes = new Cliente[10];
     Transferencia[] transferencias = new Transferencia[100];
-    CuentaTableModel modelTable;
+    CuentaTableModel cuentaTableModel;
+    TransferenciaTableModel transTableModel;
 
     /**
      * Creates new form Principal
      */
     public Principal() {
-        modelTable = new CuentaTableModel(clientes);
+        cuentaTableModel = new CuentaTableModel(clientes);
+        transTableModel = new TransferenciaTableModel(transferencias);
         initComponents();
     }
 
@@ -44,6 +47,13 @@ public class Principal extends javax.swing.JFrame {
         javax.swing.JLabel jLabel11 = new javax.swing.JLabel();
         javax.swing.JScrollPane jScrollPane1 = new javax.swing.JScrollPane();
         tableCuentas = new javax.swing.JTable();
+        dialogTransferencias = new javax.swing.JDialog();
+        javax.swing.JPanel jPanel6 = new javax.swing.JPanel();
+        javax.swing.JLabel jLabel13 = new javax.swing.JLabel();
+        javax.swing.JButton btnBuscarTransferencias = new javax.swing.JButton();
+        txtGUIDTransferencias = new javax.swing.JTextField();
+        javax.swing.JScrollPane jScrollPane2 = new javax.swing.JScrollPane();
+        tableTransferencias = new javax.swing.JTable();
         javax.swing.JPanel jPanel1 = new javax.swing.JPanel();
         txtClienteApellido = new javax.swing.JTextField();
         txtClienteCUI = new javax.swing.JTextField();
@@ -72,8 +82,11 @@ public class Principal extends javax.swing.JFrame {
         javax.swing.JMenu jMenu1 = new javax.swing.JMenu();
         javax.swing.JMenuItem clientesMenu = new javax.swing.JMenuItem();
         javax.swing.JMenuItem cuentaMenu = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem transferenciaMenu = new javax.swing.JMenuItem();
 
-        dialogCuentas.setTitle("Cuentas cliente");
+        dialogCuentas.setTitle("Consultar cuentas de cliente");
+        dialogCuentas.setMinimumSize(new java.awt.Dimension(300, 300));
+        dialogCuentas.setPreferredSize(new java.awt.Dimension(800, 300));
         dialogCuentas.getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel4.setLayout(new java.awt.GridBagLayout());
@@ -131,6 +144,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel5.add(jLabel12, gridBagConstraints);
 
+        txtBuscarNombre.setEditable(false);
         txtBuscarNombre.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -140,6 +154,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 5);
         jPanel5.add(txtBuscarNombre, gridBagConstraints);
 
+        txtBuscarApellido.setEditable(false);
         txtBuscarApellido.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
@@ -171,7 +186,7 @@ public class Principal extends javax.swing.JFrame {
         dialogCuentas.getContentPane().add(jPanel5, gridBagConstraints);
 
         tableCuentas.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
-        tableCuentas.setModel(this.modelTable);
+        tableCuentas.setModel(cuentaTableModel);
         tableCuentas.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
         tableCuentas.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tableCuentas);
@@ -184,6 +199,67 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
         dialogCuentas.getContentPane().add(jScrollPane1, gridBagConstraints);
+
+        dialogTransferencias.setTitle("Transferencias de una cuenta");
+        dialogTransferencias.setMinimumSize(new java.awt.Dimension(300, 300));
+        dialogTransferencias.setPreferredSize(new java.awt.Dimension(1000, 300));
+        dialogTransferencias.getContentPane().setLayout(new java.awt.GridBagLayout());
+
+        jPanel6.setLayout(new java.awt.GridBagLayout());
+
+        jLabel13.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        jLabel13.setText("GUID");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel6.add(jLabel13, gridBagConstraints);
+
+        btnBuscarTransferencias.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        btnBuscarTransferencias.setText("Buscar");
+        btnBuscarTransferencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarTransferenciasActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
+        jPanel6.add(btnBuscarTransferencias, gridBagConstraints);
+
+        txtGUIDTransferencias.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel6.add(txtGUIDTransferencias, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weightx = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(10, 10, 5, 10);
+        dialogTransferencias.getContentPane().add(jPanel6, gridBagConstraints);
+
+        tableTransferencias.setFont(new java.awt.Font("SansSerif", 0, 12)); // NOI18N
+        tableTransferencias.setModel(this.transTableModel);
+        tableTransferencias.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+        tableTransferencias.setColumnSelectionAllowed(true);
+        jScrollPane2.setViewportView(tableTransferencias);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.weighty = 1.0;
+        gridBagConstraints.insets = new java.awt.Insets(5, 10, 10, 10);
+        dialogTransferencias.getContentPane().add(jScrollPane2, gridBagConstraints);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Entidad bancaria");
@@ -421,7 +497,7 @@ public class Principal extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         getContentPane().add(jPanel3, gridBagConstraints);
 
-        jMenu1.setText("Cuentas");
+        jMenu1.setText("Consultar");
 
         clientesMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         clientesMenu.setText("Clientes...");
@@ -440,6 +516,15 @@ public class Principal extends javax.swing.JFrame {
             }
         });
         jMenu1.add(cuentaMenu);
+
+        transferenciaMenu.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        transferenciaMenu.setText("Transferencias...");
+        transferenciaMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                transferenciaMenuActionPerformed(evt);
+            }
+        });
+        jMenu1.add(transferenciaMenu);
 
         jMenuBar1.add(jMenu1);
 
@@ -510,7 +595,7 @@ public class Principal extends javax.swing.JFrame {
             if (clientes[i] != null && clientes[i].getCUI().equals(this.txtCUIBuscarCuenta.getText().trim())) {
                 this.txtBuscarNombre.setText(clientes[i].getNombre());
                 this.txtBuscarApellido.setText(clientes[i].getApellido());
-                this.modelTable.updateCuentas(this.txtCUIBuscarCuenta.getText().trim());
+                this.cuentaTableModel.updateCuentas(this.txtCUIBuscarCuenta.getText().trim());
             }
         }
     }//GEN-LAST:event_btnBuscarCuentaActionPerformed
@@ -574,12 +659,22 @@ public class Principal extends javax.swing.JFrame {
         for (int i = 0; i < this.transferencias.length; i++) {
             if (this.transferencias[i] == null) {
                 this.transferencias[i] = new Transferencia(origen.getGuid(), destino.getGuid(), monto.doubleValue());
+                origen.addFondos(-monto);
+                destino.addFondos(monto);
                 JOptionPane.showMessageDialog(this, "Transferencia exitosa", "Entidad bancaria - transferir",
                         JOptionPane.INFORMATION_MESSAGE);
                 break;
             }
         }
     }//GEN-LAST:event_btnTransferirActionPerformed
+
+    private void transferenciaMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_transferenciaMenuActionPerformed
+        dialogTransferencias.setVisible(true);
+    }//GEN-LAST:event_transferenciaMenuActionPerformed
+
+    private void btnBuscarTransferenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTransferenciasActionPerformed
+        this.transTableModel.updateTransferencias(this.txtGUIDTransferencias.getText().trim());
+    }//GEN-LAST:event_btnBuscarTransferenciasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -616,7 +711,9 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmbCuentaTipo;
     private javax.swing.JDialog dialogCuentas;
+    private javax.swing.JDialog dialogTransferencias;
     private javax.swing.JTable tableCuentas;
+    private javax.swing.JTable tableTransferencias;
     private javax.swing.JTextField txtBuscarApellido;
     private javax.swing.JTextField txtBuscarNombre;
     private javax.swing.JTextField txtCUIBuscarCuenta;
@@ -625,6 +722,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txtClienteNombre;
     private javax.swing.JTextField txtCuentCUI;
     private javax.swing.JTextField txtCuentaMonto;
+    private javax.swing.JTextField txtGUIDTransferencias;
     private javax.swing.JTextField txtTransferenciaDestino;
     private javax.swing.JTextField txtTransferenciaMonto;
     private javax.swing.JTextField txtTransferenciaOrigen;

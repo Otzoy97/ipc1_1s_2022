@@ -55,13 +55,13 @@ public class TransferenciaTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
-            case 1:
+            case 0:
                 return refTransferencias[rowIndex].getGuidOrigen();
-            case 2:
+            case 1:
                 return refTransferencias[rowIndex].getGuidDestino();
-            case 3:
+            case 2:
                 return dateFormat.format(refTransferencias[rowIndex].getFecha());
-            case 4:
+            case 3:
                 return String.format("Q. %,.2f", refTransferencias[rowIndex].getMonto());
         }
         return "";

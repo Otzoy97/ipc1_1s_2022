@@ -18,7 +18,7 @@ public class ClienteDialog extends javax.swing.JDialog {
         tableClientes = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Clientes");
+        setTitle("Todos los clientes");
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));

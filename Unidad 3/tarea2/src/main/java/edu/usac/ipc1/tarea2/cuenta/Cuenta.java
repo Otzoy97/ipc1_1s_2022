@@ -38,21 +38,7 @@ public class Cuenta {
         return fondos;
     }
 
-    // public Transferencia[] getTransferencias() {
-    //     return transferencias;
-    // }
-
     public void addFondos(Double fondos) {
         this.fondos += fondos;
     }
-    
-    // public boolean saveTransferencia(Transferencia t) {
-    //     for(int i = 0; i<this.transferencias.length; i++) {
-    //         if (this.transferencias[i] == null) {
-    //             this.transferencias[i] = t;
-    //             return true;
-    //         }
-    //     }
-    //     return false;
-    // }
 }
