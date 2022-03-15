@@ -17,7 +17,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu.Separator;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
@@ -29,12 +28,19 @@ public class Editor extends JFrame {
     private Archivo archivo;
     private JFileChooser fileChooser;
     private JButton play_stop;
-    // Etiquetas que se actualizarán 
+    // OJO, si se trabajan con varios hilos y esos hilos
+    // manipulan las mismas variables, es importante declarar
+    // las variables con la palabra reservada "volatile".
+    // Por ejemplo, acá se declararon JLabel's en volatile
+    // porque el valor de esas variables (objetos) serán
+    // manipulados desde diferentes hilos.
+
+    // Etiquetas que se actualizarán
     // desde otros subprocesos
     private volatile JLabel lblPalabrasValor;
     private volatile JLabel lblPalabraPorMinutoValor;
     private volatile JLabel lblCronometroValor;
-    private volatile Double miliSeconds = 0d;
+    private volatile Long miliSeconds = 0l;
     // Indicará si los subprocesos estarán corriendo
     public static volatile Boolean running = false;
 
@@ -51,14 +57,23 @@ public class Editor extends JFrame {
     private void init() {
         setTitle("Editor de texto");
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        /// Se agrega un evento a la ventana
+        /// Este evento se ejecutará cada vez que la ventana
+        /// se cierre
+        setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                running = false;
+                dispose();
+            }
+        });
         GridBagConstraints gridBagConstraints;
         getContentPane().setLayout(new GridBagLayout());
 
         JMenuBar jMenuBar = new JMenuBar();
         JMenu jMenu = new JMenu("Archivo");
         JMenuItem jMenuItem0 = new JMenuItem("Abrir...");
-        jMenuItem0.setAccelerator(KeyStroke.getKeyStroke('A', InputEvent.CTRL_DOWN_MASK));
+        jMenuItem0.setAccelerator(KeyStroke.getKeyStroke('O', InputEvent.CTRL_DOWN_MASK));
         jMenuItem0.addActionListener(e -> openFile());
         JMenuItem jMenuItem1 = new JMenuItem("Guardar");
         jMenuItem1.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK));
@@ -67,20 +82,9 @@ public class Editor extends JFrame {
         jMenuItem2.setAccelerator(KeyStroke.getKeyStroke('S', InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
         jMenuItem2.addActionListener(e -> saveFileAs());
 
-        JMenuItem jMenuItem3 = new JMenuItem("Obtener info...");
-        jMenuItem3.setAccelerator(KeyStroke.getKeyStroke('I', InputEvent.CTRL_DOWN_MASK));
-        jMenuItem3.addActionListener(e -> getInfo());
-
-        JMenuItem jMenuItem4 = new JMenuItem("Eliminar archivo");
-        jMenuItem4.setAccelerator(KeyStroke.getKeyStroke('D', InputEvent.CTRL_DOWN_MASK + InputEvent.SHIFT_DOWN_MASK));
-        jMenuItem4.addActionListener(e -> deleteFile());
-
         jMenu.add(jMenuItem0);
         jMenu.add(jMenuItem1);
         jMenu.add(jMenuItem2);
-        jMenu.add(new Separator());
-        jMenu.add(jMenuItem3);
-        jMenu.add(jMenuItem4);
         jMenuBar.add(jMenu);
         setJMenuBar(jMenuBar);
 
@@ -183,18 +187,32 @@ public class Editor extends JFrame {
 
     }
 
+    /**
+     * Esta función se ejecutará al presionar el botón "Play/Stop"
+     */
     private void playAndStopThreads() {
-        if(!Editor.running) {
+        // Si running es false, iniciará un nuevo hilo
+        if (!Editor.running) {
+            // Asigna runnig true para que el while
+            // dentro de la función run de Cronometro, no termine
+            // y mantener vivo el hilo
             Editor.running = true;
-            this.miliSeconds = 0d;
+            // El cronometro comenzará en 0 milisegundos
+            this.miliSeconds = 0l;
+            // Ejecuta el subproceso (hilo) Cronometro concurrentemente
             new Cronometro(this.miliSeconds, this.lblCronometroValor).start();
-            System.out.println("o.oa");
         } else {
+            // Si running es true, asignará un false
+            // haciendo que el while que se ejecuta en la función
+            // run the Cronometro terminé y por consiguiente
+            // el hilo de Cronometro finalice.
             Editor.running = false;
-            System.out.println("o.ob");
         }
     }
 
+    /**
+     * Guarda el contenido del editor en un archivo nuevo
+     */
     private void saveFileAs() {
         try {
             fileChooser = new JFileChooser(archivo.getPath().getParent().toString());
@@ -247,20 +265,6 @@ public class Editor extends JFrame {
             archivo = new Archivo(fileChooser.getSelectedFile().getAbsolutePath());
             this.txtContent.setText(archivo.leer());
             isSaved = true;
-        }
-    }
-
-    private void getInfo() {
-        JOptionPane.showMessageDialog(this, archivo.informar(), "Editor", JOptionPane.INFORMATION_MESSAGE);
-    }
-
-    private void deleteFile() {
-        if (archivo.eliminar()) {
-            JOptionPane.showMessageDialog(this, "Archivo eliminado", "Editor", JOptionPane.INFORMATION_MESSAGE);
-            isSaved = false;
-        } else {
-            JOptionPane.showMessageDialog(this, "No se pudo eliminar el archivo", "Editor",
-                    JOptionPane.WARNING_MESSAGE);
         }
     }
 }
