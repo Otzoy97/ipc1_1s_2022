@@ -1,5 +1,8 @@
 package edu.usac.ipc1.ejemplo8;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+
 import javax.swing.JLabel;
 
 /**
@@ -9,12 +12,14 @@ import javax.swing.JLabel;
  * dentro de nuestra propia clase)
  */
 public class Cronometro extends Thread {
-    private volatile Long miliSeconds;
-    private volatile JLabel lblSeconds;
+    private JLabel lblSeconds;
+    private AtomicLong miliseconds;
+    private AtomicBoolean running;
 
-    public Cronometro(Long seconds, JLabel lblSeconds) {
-        this.miliSeconds = seconds;
+    public Cronometro(AtomicLong miliseconds, JLabel lblSeconds, AtomicBoolean running) {
+        this.miliseconds = miliseconds;
         this.lblSeconds = lblSeconds;
+        this.running = running;
     }
 
     @Override
@@ -26,14 +31,14 @@ public class Cronometro extends Thread {
         /// Si Editor.running cambia a falso, el while
         /// terminará y el hilo finalizará su ejecución y "morirá", liberando
         /// los recursos que se la habían asignado (espacio de memoria, tiempo de reloj del CPU, etc)
-        while (Editor.running) {
+        while (this.running.get()) {
             try {
-                this.miliSeconds++;
+                this.miliseconds.incrementAndGet();
                 /// Pone a "dormir" al hilo 1 milisegundo
                 Thread.sleep(1);
-                minutes = (miliSeconds / 1000) / 60;
-                seconds = (miliSeconds / 1000) % 60;
-                milis = miliSeconds - (minutes * 60000 + seconds * 1000);
+                minutes = (miliseconds.get() / 1000) / 60;
+                seconds = (miliseconds.get() / 1000) % 60;
+                milis = miliseconds.get() - (minutes * 60000 + seconds * 1000);
                 /// Actualiza el valor de lblSeconds, de tal manera que el cronometro
                 /// sea humanamente entendible 00:00.000
                 lblSeconds.setText(String.format("%02d:%02d:%03d", minutes, seconds, milis));

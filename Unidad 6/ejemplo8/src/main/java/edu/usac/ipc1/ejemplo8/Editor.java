@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.InputEvent;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.event.DocumentEvent;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class Editor extends JFrame {
@@ -40,9 +43,14 @@ public class Editor extends JFrame {
     private volatile JLabel lblPalabrasValor;
     private volatile JLabel lblPalabraPorMinutoValor;
     private volatile JLabel lblCronometroValor;
-    private volatile Long miliSeconds = 0l;
-    // Indicará si los subprocesos estarán corriendo
-    public static volatile Boolean running = false;
+    // Las variables de tipo "Atomic" son bastante útiles
+    // cuando se están manejando varios hilos
+    private volatile AtomicLong miliseconds = new AtomicLong(0);
+    private volatile AtomicLong words = new AtomicLong(0);
+    // Para algunos subproceso (hilos) la variable "running"
+    // servirá como bandera para determinar si el hilo
+    // debe mantenerse con "vida".
+    private volatile AtomicBoolean running = new AtomicBoolean(false);
 
     public static void main(String[] args) {
         Editor editor = new Editor();
@@ -63,7 +71,7 @@ public class Editor extends JFrame {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
-                running = false;
+                running.set(false);
                 dispose();
             }
         });
@@ -107,11 +115,34 @@ public class Editor extends JFrame {
         lblCronometroValor = new JLabel("00:00.000");
         lblCronometroValor.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 12));
 
-        txtContent = new JTextArea();
+        txtContent = new JTextArea("");
         txtContent.setFont(new Font("Courier New", Font.PLAIN, 12));
         txtContent.setWrapStyleWord(true);
         txtContent.setLineWrap(true);
         txtContent.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        txtContent.getDocument().addDocumentListener(new javax.swing.event.DocumentListener() {
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                if (running.get()) {
+                    new Palabra(lblPalabrasValor, lblPalabraPorMinutoValor, miliseconds, words,
+                            txtContent.getText().split("\\s+")).start();
+                }
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                if (running.get()) {
+                    new Palabra(lblPalabrasValor, lblPalabraPorMinutoValor, miliseconds, words,
+                            txtContent.getText().split("\\s+")).start();
+                }
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+            }
+
+        });
         JScrollPane scp0 = new JScrollPane(txtContent);
 
         gridBagConstraints = new GridBagConstraints();
@@ -192,21 +223,21 @@ public class Editor extends JFrame {
      */
     private void playAndStopThreads() {
         // Si running es false, iniciará un nuevo hilo
-        if (!Editor.running) {
+        if (!running.get()) {
             // Asigna runnig true para que el while
             // dentro de la función run de Cronometro, no termine
             // y mantener vivo el hilo
-            Editor.running = true;
-            // El cronometro comenzará en 0 milisegundos
-            this.miliSeconds = 0l;
+            miliseconds.set(0);
+            running.set(true);
             // Ejecuta el subproceso (hilo) Cronometro concurrentemente
-            new Cronometro(this.miliSeconds, this.lblCronometroValor).start();
+            new Cronometro(this.miliseconds, this.lblCronometroValor, this.running).start();
         } else {
             // Si running es true, asignará un false
             // haciendo que el while que se ejecuta en la función
             // run the Cronometro terminé y por consiguiente
             // el hilo de Cronometro finalice.
-            Editor.running = false;
+            System.out.println(this.miliseconds.get());
+            running.set(false);
         }
     }
 
