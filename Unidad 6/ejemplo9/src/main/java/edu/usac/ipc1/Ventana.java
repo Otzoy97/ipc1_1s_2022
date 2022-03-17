@@ -7,9 +7,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.InputEvent;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.jar.JarEntry;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -38,9 +36,7 @@ public class Ventana extends JFrame {
     private volatile JLabel lblPasos;
     private volatile JPanel panelLblPasos;
     private volatile Dato[] datos;
-    private volatile AtomicBoolean corriendo = new AtomicBoolean(false);
     private volatile AtomicInteger pasos = new AtomicInteger(0);
-    private Bubblesort subproceBubblesort;
     /**
      * Cuando el ordenamiento sea ejecutado paso a paso,
      * esta variable servirá para determinar el número de iteración 
@@ -104,8 +100,9 @@ public class Ventana extends JFrame {
     }
 
     private void ordenarDatos() {
-        subproceBubblesort = new Bubblesort();
-        subproceBubblesort.start();
+        this.panelLblPasos.removeAll();
+        this.panelLblPasos.validate();
+        new Bubblesort(lblPasos, panelLblPasos, datos, pasos).start();;
     }
 
     private void pasoAPaso() {
@@ -158,9 +155,6 @@ public class Ventana extends JFrame {
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
-                // Al cambiar /corriendo/ a false, detendrá
-                // cualquier hilo que dependa de que /corriendo/ sea true
-                corriendo.set(false);
                 dispose();
             }
         });
