@@ -12,14 +12,15 @@ class Database():
         if not(client.getCui() in self.__cuiClients):
             self.__clients.append(client)
             self.__cuiClients.append(client.getCui())
+            print(self.__clients)
             return True
         return False
 
     def getClient(self, cuiClient):
         '''Busca un cliente usando el cuidClient como referencia. Si no encuentra alguna coincidencia el resultado es None'''
-        if cuiClient in self.__cuiClients:
+        if int(cuiClient) in self.__cuiClients:
             for client in self.__clients:
-                if client.getCui() == cuiClient:
+                if client.getCui() == int(cuiClient):
                     return client
         return None
     

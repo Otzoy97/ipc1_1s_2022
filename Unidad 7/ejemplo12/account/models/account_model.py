@@ -22,9 +22,5 @@ class Account():
             "uuid": self.__uuid,
             "cui": self.__cui,
             "funds": self.__funds,
-            "type": self.__type
+            "type": self.type
         }
-
-    
-
-
