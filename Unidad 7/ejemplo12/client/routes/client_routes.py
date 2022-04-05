@@ -1,4 +1,4 @@
-from flask import Blueprint, Response, jsonify, request
+from flask import Blueprint, jsonify, request
 from db.database import bankDatabase
 from client.models.client_model import Client
 
@@ -6,6 +6,7 @@ client = Blueprint('client', __name__, url_prefix='/api/client')
 
 @client.route('/create', methods=['POST'])
 def create():
+    '''Servicio para crear un cliente'''
     body = request.get_json()
     try:
         if ("cui" in body and "name" in body and "lastname" in body):
@@ -21,6 +22,7 @@ def create():
 
 @client.route('/view/<cui>', methods=['GET'])
 def view(cui):
+    '''Servicio para recuperar los datos de un cliente'''
     try:
         client = bankDatabase.getClient(cui)
         if (client != None):
