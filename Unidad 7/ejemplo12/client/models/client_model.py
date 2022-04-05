@@ -24,9 +24,12 @@ class Client():
         return None
     
     def getData(self):
+        list_account = []
+        for acc in self.__accounts:
+            list_account.append(acc.getData())
         return {
             "cui": self.__cui,
             "name": self.__name,
             "lastName": self.__lastName,
-            "accounts": self.__accounts
+            "accounts": list_account
         }

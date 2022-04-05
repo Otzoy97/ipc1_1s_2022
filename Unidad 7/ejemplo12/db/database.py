@@ -32,7 +32,7 @@ class Database():
     def getAccount(self, uuidAccount):
         '''Recupera una cuenta de la lista de cuenta usando como referencia el identificador único de la cuenta'''
         for account in self.__accounts:
-            if account.getUuid() == uuidAccount:
+            if str(account.getUuid()) == uuidAccount:
                 return account
         return None
 

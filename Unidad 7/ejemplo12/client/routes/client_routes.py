@@ -26,7 +26,7 @@ def view(cui):
     try:
         client = bankDatabase.getClient(cui)
         if (client != None):
-            return client.getData(), 200
+            return jsonify(client.getData()), 200
         else:
             return {'msg': 'No se encontró el cliente'}, 404
     except:

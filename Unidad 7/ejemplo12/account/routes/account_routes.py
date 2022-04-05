@@ -15,7 +15,7 @@ def create():
                 account = Account(int(body["cui"]), body["type"], float(body["funds"]))
                 client.addAccount(account)
                 bankDatabase.addAccount(account)
-                return {'msg': f'cuenta id. {account.getUuid()} creada exitosamente'}, 201
+                return {'msg': f"cuenta id. '{account.getUuid()}' creada exitosamente"}, 201
             else:
                 return {'msg': 'cliente con cui ingresado no existe'}, 404
         else:
