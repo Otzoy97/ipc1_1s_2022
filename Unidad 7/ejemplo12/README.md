@@ -5,4 +5,5 @@
 |POST|/api/client/create|BODY|
 |GET|/api/client/view/&lt;cui&gt;|PARAMS|
 |POST|/api/account/create|BODY|
-|GET|/api/client/account/&lt;account&gt;|PARAMS|
+|GET|/api/account/&lt;account&gt;|PARAMS|
+|POST|/api/transfer/create|BODY|

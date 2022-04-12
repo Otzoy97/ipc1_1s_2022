@@ -38,8 +38,23 @@ class Database():
 
     def addTransfer(self, transfer):
         '''Añade un registro de transferencia a la lista de transferencias'''
+        # debe vericiar que ambas cuentas existan
+        toAccountFlag = False
+        fromAccountFlag = False
+        for account in self.__accounts:
+            if str(account.getUuid()) == transfer.getToAccount():
+                toAccountFlag = True
+            if str(account.getUuid()) == transfer.getFromAccount():
+                fromAccountFlag = True
+        if(not(toAccountFlag)):
+            return ("la cuenta destino no existe", 404)
+        if(not(fromAccountFlag)):
+            return ("la cuenta de origen no existe", 404)
+        # las cuentas deben ser diferente
+        if (transfer.getFromAccount() == transfer.getToAccount()):
+            return ("la cuenta de origen no puede ser la misma que la cuenta destino", 400)
         self.__transfers.append(transfer)
-        return True
+        return ("transferencia exitosa", 201)
     
     def getTransfers(self, uuidAccount):
         '''Recupera todas las transferencia que se han realizado desde y hacia una cuenta en específico'''
